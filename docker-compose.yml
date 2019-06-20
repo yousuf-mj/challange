@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  api:
+    container_name: api
+    build: ./api/
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    networks:
+      - backend
+    working_dir: /usr/src/app
+    restart: always
+    volumes:
+      - ./api/:/usr/src/app
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "10"
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+
+
+networks:
+  backend:
+    driver: bridge
